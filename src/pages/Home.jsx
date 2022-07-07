@@ -3,43 +3,45 @@ import { data } from '../data/Data';
 
 const Home = () => {
     const [place, setPlace] = useState('');
-    const [bed, setBed] = useState(1);
-    const [room, setRoom] = useState(1);
+    const [bed, setBed] = useState(0);
+    const [room, setRoom] = useState(0);
     const [price, setPrice] = useState('');
     const [filteredData, setFilteredData] = useState([]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(place, bed, room, price);
-        filterFunc();
+
+    const filterFuncBed = () => {
+        if (["1", "2", "3", "4"].includes(bed)) {
+            setFilteredData(data.filter(item => {
+                return (item.beds == parseInt(bed))
+            }))
+        }
     }
+    const filterFuncRoom = () => {
+        if (["1", "2", "3", "4", "5"].includes(room)) {
+            setFilteredData(data.filter(item => {
+                return (item.rooms == parseInt(room))
+            }))
+        }
+    }
+    const filterFuncPlace = () => {
 
-    const filterFunc = () => {
-
-        setFilteredData(data)
-        
         if (["Mumbai", "Delhi", "Bangalore"].includes(place)) {
             setFilteredData(data.filter(item => {
                 return item.place === place
             }))
         }
-        if ([1, 2, 3, 4].includes(bed)) {
-            setFilteredData(data.filter(item => {
-                return item.beds == bed
-            }))
-        }
-        if ([1, 2, 3, 4, 5].includes(room)) {
-            setFilteredData(data.filter(item => {
-                return item.rooms == room
-            }))
-        }
-
-        console.log(filteredData)
     }
-    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setFilteredData(data)
+        filterFuncPlace();
+        filterFuncBed();
+        filterFuncRoom();
+    }
+
     useEffect(() => {
     }, [filteredData])
-    
+
     return (
         <div className='min-h-screen bg-blue-50/30 flex items-center overflow-hidden flex-col flex-wrap'>
             <h1 className='text-xl font-bold m-1 p-2'>Search Properties to Rent <span className='font-light opacity-60 text-sm px-2 italic'>The Easy Way!</span></h1>
@@ -48,17 +50,18 @@ const Home = () => {
 
                 <select required type="text" value={place} onChange={(e) => setPlace(e.target.value)} className='focus:outline-none my-2 mx-4 px-6 py-1 rounded border'>
 
+                    <option>All</option>
                     <option value="Delhi">Delhi</option>
                     <option value="Mumbai">Mumbai</option>
                     <option value="Bangalore">Bangalore</option>
                 </select>
 
+                <label className='mx-2'>Sort By</label>
                 <select required type="text" value={price} onChange={(e) => setPrice(e.target.value)} className='focus:outline-none my-2 mx-4 px-6 py-1 rounded border'>
 
-                    <option value="Under-20k">Under 20K</option>
-                    <option value="20k-30k">20k to 30k</option>
-                    <option value="30k-40k">30k to 40k</option>
-                    <option value="Above-40k">Above 40k</option>
+                    <option></option>
+                    <option value="Low-to-High">Low to High</option>
+                    <option value="High-to-Low">High to Low</option>
                 </select>
 
                 <label className='mx-2'>Beds</label>
