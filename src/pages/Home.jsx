@@ -8,35 +8,39 @@ const Home = () => {
     const [price, setPrice] = useState('');
     const [filteredData, setFilteredData] = useState([]);
 
+    const filterFunc = () => {
 
-    const filterFuncBed = () => {
-        if (["1", "2", "3", "4"].includes(bed)) {
-            setFilteredData(data.filter(item => {
-                return (item.beds == parseInt(bed))
-            }))
-        }
-    }
-    const filterFuncRoom = () => {
-        if (["1", "2", "3", "4", "5"].includes(room)) {
-            setFilteredData(data.filter(item => {
-                return (item.rooms == parseInt(room))
-            }))
-        }
-    }
-    const filterFuncPlace = () => {
 
         if (["Mumbai", "Delhi", "Bangalore"].includes(place)) {
             setFilteredData(data.filter(item => {
                 return item.place === place
             }))
         }
+        if (price === "Low-to-High") {
+            setFilteredData(data.sort(function (a, b) {
+                return (a.monthlyPrice < b.monthlyPrice) ? -1 : (a.monthlyPrice > b.monthlyPrice) ? 1 : 0;
+            }))
+        }
+        if (price === "High-to-Low") {
+            setFilteredData(data.sort(function (a, b) {
+                return (a.monthlyPrice > b.monthlyPrice) ? -1 : (a.monthlyPrice > b.monthlyPrice) ? 1 : 0;
+            }))
+        }
+        if (["1", "2", "3", "4"].includes(bed)) {
+            setFilteredData(data.filter(item => {
+                return (item.beds == parseInt(bed))
+            }))
+        }
+        if (["1", "2", "3", "4", "5"].includes(room)) {
+            setFilteredData(data.filter(item => {
+                return (item.rooms == parseInt(room))
+            }))
+        }
     }
     const handleSubmit = (e) => {
         e.preventDefault();
         setFilteredData(data)
-        filterFuncPlace();
-        filterFuncBed();
-        filterFuncRoom();
+        filterFunc();
     }
 
     useEffect(() => {
