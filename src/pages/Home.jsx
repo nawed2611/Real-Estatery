@@ -79,7 +79,7 @@ const Home = () => {
             </form>
 
             <div className='flex flex-wrap items-center justify-evenly'>
-                {filteredData &&
+                {filteredData.length > 0 &&
                     <div className='flex w-screen px-12 py-2'><h1 className='font'>{filteredData.length} Results Found!</h1></div>
                 }
 
